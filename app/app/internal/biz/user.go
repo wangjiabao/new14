@@ -4308,17 +4308,17 @@ func (uuc *UserUseCase) AdminDailyLocationReward(ctx context.Context, req *v1.Ad
 			num           float64
 		)
 		if 1 == tmpRecommendUser.Last {
-			num = 2
-		} else if 2 == tmpRecommendUser.Last {
-			num = 2.3
-		} else if 3 == tmpRecommendUser.Last {
-			num = 2.6
-		} else if 4 == tmpRecommendUser.Last {
-			num = 3
-		} else if 5 == tmpRecommendUser.Last {
 			num = 1.5
-		} else if 6 == tmpRecommendUser.Last {
+		} else if 2 == tmpRecommendUser.Last {
 			num = 1.8
+		} else if 3 == tmpRecommendUser.Last {
+			num = 2
+		} else if 4 == tmpRecommendUser.Last {
+			num = 2.3
+		} else if 5 == tmpRecommendUser.Last {
+			num = 2.6
+		} else if 6 == tmpRecommendUser.Last {
+			num = 3
 		} else {
 			continue
 		}
