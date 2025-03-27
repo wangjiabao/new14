@@ -2561,19 +2561,12 @@ func (ub *UserBalanceRepo) RecommendRewardBiw(ctx context.Context, userId int64,
 }
 
 // UpdateUserNewTwoNewTwo .
-func (ui *UserInfoRepo) UpdateUserNewTwoNewTwo(ctx context.Context, userId int64, amountRaw float64) error {
-
-	res := ui.data.DB(ctx).Table("user_balance").Where("user_id=?", userId).
-		Updates(map[string]interface{}{"balance_raw_float": gorm.Expr("balance_raw_float + ?", amountRaw)})
+func (ui *UserInfoRepo) UpdateUserNewTwoNewTwo(ctx context.Context, userId int64, amount uint64) error {
+	res := ui.data.DB(ctx).Table("user").Where("id=?", userId).
+		Updates(map[string]interface{}{"amount": gorm.Expr("amount + ?", amount)})
 	if res.Error != nil {
 		return errors.New(500, "UPDATE_USER_ERROR", "用户信息修改失败")
 	}
-
-	//res = ui.data.DB(ctx).Table("user").Where("id=?", recommendUserId).
-	//	Updates(map[string]interface{}{"my_total_amount": gorm.Expr("my_total_amount + ?", amountRaw )})
-	//if res.Error != nil {
-	//	return errors.New(500, "UPDATE_USER_ERROR", "用户信息修改失败")
-	//}
 
 	var (
 		err    error
@@ -2581,8 +2574,8 @@ func (ui *UserInfoRepo) UpdateUserNewTwoNewTwo(ctx context.Context, userId int64
 	)
 
 	reward.UserId = userId
-	reward.AmountNew = amountRaw
-	reward.Type = "RAW"       // 本次分红的行为类型
+	reward.AmountNew = float64(amount)
+	reward.Type = "USDT"      // 本次分红的行为类型
 	reward.Reason = "deposit" // 给我分红的理由
 	err = ui.data.DB(ctx).Table("reward").Create(&reward).Error
 	if err != nil {
