@@ -8992,7 +8992,7 @@ var file_app_app_api_app_proto_rawDesc = []byte{
 	0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1e, 0x0a, 0x0a, 0x6c, 0x6f, 0x63, 0x6b, 0x52, 0x65,
 	0x77, 0x61, 0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x6c, 0x6f, 0x63, 0x6b,
 	0x52, 0x65, 0x77, 0x61, 0x72, 0x64, 0x22, 0x15, 0x0a, 0x13, 0x4c, 0x6f, 0x63, 0x6b, 0x55, 0x73,
-	0x65, 0x72, 0x52, 0x65, 0x77, 0x61, 0x72, 0x64, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x32, 0xea, 0x3d,
+	0x65, 0x72, 0x52, 0x65, 0x77, 0x61, 0x72, 0x64, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x32, 0x8a, 0x3f,
 	0x0a, 0x03, 0x41, 0x70, 0x70, 0x12, 0x57, 0x0a, 0x08, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x66,
 	0x6f, 0x12, 0x14, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x12, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x55, 0x73,
@@ -9426,7 +9426,17 @@ var file_app_app_api_app_proto_rawDesc = []byte{
 	0x72, 0x64, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x2c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x12,
 	0x24, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x5f, 0x64, 0x68, 0x62, 0x2f,
 	0x64, 0x61, 0x69, 0x6c, 0x79, 0x5f, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x72,
-	0x65, 0x77, 0x61, 0x72, 0x64, 0x12, 0x8a, 0x01, 0x0a, 0x14, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x44,
+	0x65, 0x77, 0x61, 0x72, 0x64, 0x12, 0x9d, 0x01, 0x0a, 0x1d, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x44,
+	0x61, 0x69, 0x6c, 0x79, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x77, 0x61,
+	0x72, 0x64, 0x54, 0x68, 0x72, 0x65, 0x65, 0x12, 0x24, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x41, 0x64,
+	0x6d, 0x69, 0x6e, 0x44, 0x61, 0x69, 0x6c, 0x79, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x52, 0x65, 0x77, 0x61, 0x72, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x44, 0x61, 0x69, 0x6c, 0x79, 0x4c, 0x6f,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x77, 0x61, 0x72, 0x64, 0x52, 0x65, 0x70, 0x6c,
+	0x79, 0x22, 0x32, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2c, 0x12, 0x2a, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x61, 0x64, 0x6d, 0x69, 0x6e, 0x5f, 0x64, 0x68, 0x62, 0x2f, 0x64, 0x61, 0x69, 0x6c, 0x79, 0x5f,
+	0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x72, 0x65, 0x77, 0x61, 0x72, 0x64, 0x5f,
+	0x74, 0x68, 0x72, 0x65, 0x65, 0x12, 0x8a, 0x01, 0x0a, 0x14, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x44,
 	0x61, 0x69, 0x6c, 0x79, 0x41, 0x72, 0x65, 0x61, 0x52, 0x65, 0x77, 0x61, 0x72, 0x64, 0x12, 0x24,
 	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x44, 0x61, 0x69, 0x6c, 0x79, 0x4c,
 	0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x77, 0x61, 0x72, 0x64, 0x52, 0x65, 0x71,
@@ -9764,84 +9774,86 @@ var file_app_app_api_app_proto_depIdxs = []int32{
 	96,  // 96: api.App.AdminDailyRecommendReward:input_type -> api.AdminDailyRecommendRewardRequest
 	98,  // 97: api.App.AdminDailyBalanceReward:input_type -> api.AdminDailyBalanceRewardRequest
 	106, // 98: api.App.AdminDailyLocationReward:input_type -> api.AdminDailyLocationRewardRequest
-	106, // 99: api.App.AdminDailyAreaReward:input_type -> api.AdminDailyLocationRewardRequest
-	108, // 100: api.App.AdminDailyLocationRewardNew:input_type -> api.AdminDailyLocationRewardNewRequest
-	110, // 101: api.App.AdminAddMoney:input_type -> api.AdminDailyAddMoneyRequest
-	112, // 102: api.App.TestMoney:input_type -> api.TestMoneyRequest
-	114, // 103: api.App.LockUser:input_type -> api.LockUserRequest
-	116, // 104: api.App.LockUserReward:input_type -> api.LockUserRewardRequest
-	91,  // 105: api.App.AdminRecommendLevelUpdate:input_type -> api.AdminRecommendLevelRequest
-	32,  // 106: api.App.AdminBuyList:input_type -> api.AdminBuyListRequest
-	7,   // 107: api.App.UserInfo:output_type -> api.UserInfoReply
-	9,   // 108: api.App.RewardList:output_type -> api.RewardListReply
-	11,  // 109: api.App.RecommendRewardList:output_type -> api.RecommendRewardListReply
-	13,  // 110: api.App.FeeRewardList:output_type -> api.FeeRewardListReply
-	15,  // 111: api.App.WithdrawList:output_type -> api.WithdrawListReply
-	17,  // 112: api.App.RecommendList:output_type -> api.RecommendListReply
-	19,  // 113: api.App.Withdraw:output_type -> api.WithdrawReply
-	3,   // 114: api.App.Deposit:output_type -> api.DepositReply
-	3,   // 115: api.App.DepositWithdraw:output_type -> api.DepositReply
-	3,   // 116: api.App.DepositBiw:output_type -> api.DepositReply
-	3,   // 117: api.App.DepositWithdrawBiw:output_type -> api.DepositReply
-	3,   // 118: api.App.Deposit5:output_type -> api.DepositReply
-	3,   // 119: api.App.Deposit3:output_type -> api.DepositReply
-	3,   // 120: api.App.Deposit4:output_type -> api.DepositReply
-	5,   // 121: api.App.VipCheck:output_type -> api.VipCheckReply
-	3,   // 122: api.App.Deposit2:output_type -> api.DepositReply
-	21,  // 123: api.App.AdminRewardList:output_type -> api.AdminRewardListReply
-	23,  // 124: api.App.AdminTradeList:output_type -> api.AdminTradeListReply
-	25,  // 125: api.App.LockSystem:output_type -> api.LockSystemReply
-	31,  // 126: api.App.AdminUserList:output_type -> api.AdminUserListReply
-	27,  // 127: api.App.CheckAdminUserArea:output_type -> api.CheckAdminUserAreaReply
-	29,  // 128: api.App.CheckAndInsertLocationsRecommendUser:output_type -> api.CheckAndInsertLocationsRecommendUserReply
-	37,  // 129: api.App.AdminLocationList:output_type -> api.AdminLocationListReply
-	37,  // 130: api.App.AdminLocationListNew:output_type -> api.AdminLocationListReply
-	35,  // 131: api.App.AdminRecordList:output_type -> api.RecordListReply
-	39,  // 132: api.App.AdminLocationAllList:output_type -> api.AdminLocationAllListReply
-	41,  // 133: api.App.AdminWithdrawList:output_type -> api.AdminWithdrawListReply
-	43,  // 134: api.App.AdminWithdraw:output_type -> api.AdminWithdrawReply
-	45,  // 135: api.App.AdminTrade:output_type -> api.AdminTradeReply
-	47,  // 136: api.App.AdminWithdrawPass:output_type -> api.AdminWithdrawPassReply
-	49,  // 137: api.App.AdminWithdrawEth:output_type -> api.AdminWithdrawEthReply
-	49,  // 138: api.App.AdminWithdrawBiw:output_type -> api.AdminWithdrawEthReply
-	51,  // 139: api.App.AdminFee:output_type -> api.AdminFeeReply
-	53,  // 140: api.App.AdminDailyFee:output_type -> api.AdminDailyFeeReply
-	55,  // 141: api.App.AdminAll:output_type -> api.AdminAllReply
-	57,  // 142: api.App.AdminUserRecommend:output_type -> api.AdminUserRecommendReply
-	59,  // 143: api.App.AdminMonthRecommend:output_type -> api.AdminMonthRecommendReply
-	61,  // 144: api.App.AdminConfig:output_type -> api.AdminConfigReply
-	71,  // 145: api.App.AdminConfigUpdate:output_type -> api.AdminConfigUpdateReply
-	73,  // 146: api.App.AdminConfigUpdateListen:output_type -> api.AdminConfigUpdateListenReply
-	75,  // 147: api.App.AdminUserPasswordUpdate:output_type -> api.AdminPasswordUpdateReply
-	77,  // 148: api.App.AdminUpdateLocationNewMax:output_type -> api.AdminUpdateLocationNewMaxReply
-	79,  // 149: api.App.AdminVipUpdate:output_type -> api.AdminVipUpdateReply
-	81,  // 150: api.App.AdminUndoUpdate:output_type -> api.AdminUndoUpdateReply
-	83,  // 151: api.App.AdminAreaLevelUpdate:output_type -> api.AdminAreaLevelUpdateReply
-	85,  // 152: api.App.AdminLocationInsert:output_type -> api.AdminLocationInsertReply
-	87,  // 153: api.App.AdminBalanceUpdate:output_type -> api.AdminBalanceUpdateReply
-	101, // 154: api.App.AdminLogin:output_type -> api.AdminLoginReply
-	105, // 155: api.App.AdminCreateAccount:output_type -> api.AdminCreateAccountReply
-	103, // 156: api.App.AdminChangePassword:output_type -> api.AdminChangePasswordReply
-	63,  // 157: api.App.AdminList:output_type -> api.AdminListReply
-	65,  // 158: api.App.AuthList:output_type -> api.AuthListReply
-	69,  // 159: api.App.MyAuthList:output_type -> api.MyAuthListReply
-	67,  // 160: api.App.UserAuthList:output_type -> api.UserAuthListReply
-	89,  // 161: api.App.AuthAdminCreate:output_type -> api.AuthAdminCreateReply
-	93,  // 162: api.App.AuthAdminDelete:output_type -> api.AuthAdminDeleteReply
-	95,  // 163: api.App.CheckAndInsertRecommendArea:output_type -> api.CheckAndInsertRecommendAreaReply
-	97,  // 164: api.App.AdminDailyRecommendReward:output_type -> api.AdminDailyRecommendRewardReply
-	99,  // 165: api.App.AdminDailyBalanceReward:output_type -> api.AdminDailyBalanceRewardReply
-	107, // 166: api.App.AdminDailyLocationReward:output_type -> api.AdminDailyLocationRewardReply
-	107, // 167: api.App.AdminDailyAreaReward:output_type -> api.AdminDailyLocationRewardReply
-	109, // 168: api.App.AdminDailyLocationRewardNew:output_type -> api.AdminDailyLocationRewardNewReply
-	111, // 169: api.App.AdminAddMoney:output_type -> api.AdminDailyAddMoneyReply
-	113, // 170: api.App.TestMoney:output_type -> api.TestMoneyReply
-	115, // 171: api.App.LockUser:output_type -> api.LockUserReply
-	117, // 172: api.App.LockUserReward:output_type -> api.LockUserRewardReply
-	92,  // 173: api.App.AdminRecommendLevelUpdate:output_type -> api.AdminRecommendLevelReply
-	33,  // 174: api.App.AdminBuyList:output_type -> api.AdminBuyListReply
-	107, // [107:175] is the sub-list for method output_type
-	39,  // [39:107] is the sub-list for method input_type
+	106, // 99: api.App.AdminDailyLocationRewardThree:input_type -> api.AdminDailyLocationRewardRequest
+	106, // 100: api.App.AdminDailyAreaReward:input_type -> api.AdminDailyLocationRewardRequest
+	108, // 101: api.App.AdminDailyLocationRewardNew:input_type -> api.AdminDailyLocationRewardNewRequest
+	110, // 102: api.App.AdminAddMoney:input_type -> api.AdminDailyAddMoneyRequest
+	112, // 103: api.App.TestMoney:input_type -> api.TestMoneyRequest
+	114, // 104: api.App.LockUser:input_type -> api.LockUserRequest
+	116, // 105: api.App.LockUserReward:input_type -> api.LockUserRewardRequest
+	91,  // 106: api.App.AdminRecommendLevelUpdate:input_type -> api.AdminRecommendLevelRequest
+	32,  // 107: api.App.AdminBuyList:input_type -> api.AdminBuyListRequest
+	7,   // 108: api.App.UserInfo:output_type -> api.UserInfoReply
+	9,   // 109: api.App.RewardList:output_type -> api.RewardListReply
+	11,  // 110: api.App.RecommendRewardList:output_type -> api.RecommendRewardListReply
+	13,  // 111: api.App.FeeRewardList:output_type -> api.FeeRewardListReply
+	15,  // 112: api.App.WithdrawList:output_type -> api.WithdrawListReply
+	17,  // 113: api.App.RecommendList:output_type -> api.RecommendListReply
+	19,  // 114: api.App.Withdraw:output_type -> api.WithdrawReply
+	3,   // 115: api.App.Deposit:output_type -> api.DepositReply
+	3,   // 116: api.App.DepositWithdraw:output_type -> api.DepositReply
+	3,   // 117: api.App.DepositBiw:output_type -> api.DepositReply
+	3,   // 118: api.App.DepositWithdrawBiw:output_type -> api.DepositReply
+	3,   // 119: api.App.Deposit5:output_type -> api.DepositReply
+	3,   // 120: api.App.Deposit3:output_type -> api.DepositReply
+	3,   // 121: api.App.Deposit4:output_type -> api.DepositReply
+	5,   // 122: api.App.VipCheck:output_type -> api.VipCheckReply
+	3,   // 123: api.App.Deposit2:output_type -> api.DepositReply
+	21,  // 124: api.App.AdminRewardList:output_type -> api.AdminRewardListReply
+	23,  // 125: api.App.AdminTradeList:output_type -> api.AdminTradeListReply
+	25,  // 126: api.App.LockSystem:output_type -> api.LockSystemReply
+	31,  // 127: api.App.AdminUserList:output_type -> api.AdminUserListReply
+	27,  // 128: api.App.CheckAdminUserArea:output_type -> api.CheckAdminUserAreaReply
+	29,  // 129: api.App.CheckAndInsertLocationsRecommendUser:output_type -> api.CheckAndInsertLocationsRecommendUserReply
+	37,  // 130: api.App.AdminLocationList:output_type -> api.AdminLocationListReply
+	37,  // 131: api.App.AdminLocationListNew:output_type -> api.AdminLocationListReply
+	35,  // 132: api.App.AdminRecordList:output_type -> api.RecordListReply
+	39,  // 133: api.App.AdminLocationAllList:output_type -> api.AdminLocationAllListReply
+	41,  // 134: api.App.AdminWithdrawList:output_type -> api.AdminWithdrawListReply
+	43,  // 135: api.App.AdminWithdraw:output_type -> api.AdminWithdrawReply
+	45,  // 136: api.App.AdminTrade:output_type -> api.AdminTradeReply
+	47,  // 137: api.App.AdminWithdrawPass:output_type -> api.AdminWithdrawPassReply
+	49,  // 138: api.App.AdminWithdrawEth:output_type -> api.AdminWithdrawEthReply
+	49,  // 139: api.App.AdminWithdrawBiw:output_type -> api.AdminWithdrawEthReply
+	51,  // 140: api.App.AdminFee:output_type -> api.AdminFeeReply
+	53,  // 141: api.App.AdminDailyFee:output_type -> api.AdminDailyFeeReply
+	55,  // 142: api.App.AdminAll:output_type -> api.AdminAllReply
+	57,  // 143: api.App.AdminUserRecommend:output_type -> api.AdminUserRecommendReply
+	59,  // 144: api.App.AdminMonthRecommend:output_type -> api.AdminMonthRecommendReply
+	61,  // 145: api.App.AdminConfig:output_type -> api.AdminConfigReply
+	71,  // 146: api.App.AdminConfigUpdate:output_type -> api.AdminConfigUpdateReply
+	73,  // 147: api.App.AdminConfigUpdateListen:output_type -> api.AdminConfigUpdateListenReply
+	75,  // 148: api.App.AdminUserPasswordUpdate:output_type -> api.AdminPasswordUpdateReply
+	77,  // 149: api.App.AdminUpdateLocationNewMax:output_type -> api.AdminUpdateLocationNewMaxReply
+	79,  // 150: api.App.AdminVipUpdate:output_type -> api.AdminVipUpdateReply
+	81,  // 151: api.App.AdminUndoUpdate:output_type -> api.AdminUndoUpdateReply
+	83,  // 152: api.App.AdminAreaLevelUpdate:output_type -> api.AdminAreaLevelUpdateReply
+	85,  // 153: api.App.AdminLocationInsert:output_type -> api.AdminLocationInsertReply
+	87,  // 154: api.App.AdminBalanceUpdate:output_type -> api.AdminBalanceUpdateReply
+	101, // 155: api.App.AdminLogin:output_type -> api.AdminLoginReply
+	105, // 156: api.App.AdminCreateAccount:output_type -> api.AdminCreateAccountReply
+	103, // 157: api.App.AdminChangePassword:output_type -> api.AdminChangePasswordReply
+	63,  // 158: api.App.AdminList:output_type -> api.AdminListReply
+	65,  // 159: api.App.AuthList:output_type -> api.AuthListReply
+	69,  // 160: api.App.MyAuthList:output_type -> api.MyAuthListReply
+	67,  // 161: api.App.UserAuthList:output_type -> api.UserAuthListReply
+	89,  // 162: api.App.AuthAdminCreate:output_type -> api.AuthAdminCreateReply
+	93,  // 163: api.App.AuthAdminDelete:output_type -> api.AuthAdminDeleteReply
+	95,  // 164: api.App.CheckAndInsertRecommendArea:output_type -> api.CheckAndInsertRecommendAreaReply
+	97,  // 165: api.App.AdminDailyRecommendReward:output_type -> api.AdminDailyRecommendRewardReply
+	99,  // 166: api.App.AdminDailyBalanceReward:output_type -> api.AdminDailyBalanceRewardReply
+	107, // 167: api.App.AdminDailyLocationReward:output_type -> api.AdminDailyLocationRewardReply
+	107, // 168: api.App.AdminDailyLocationRewardThree:output_type -> api.AdminDailyLocationRewardReply
+	107, // 169: api.App.AdminDailyAreaReward:output_type -> api.AdminDailyLocationRewardReply
+	109, // 170: api.App.AdminDailyLocationRewardNew:output_type -> api.AdminDailyLocationRewardNewReply
+	111, // 171: api.App.AdminAddMoney:output_type -> api.AdminDailyAddMoneyReply
+	113, // 172: api.App.TestMoney:output_type -> api.TestMoneyReply
+	115, // 173: api.App.LockUser:output_type -> api.LockUserReply
+	117, // 174: api.App.LockUserReward:output_type -> api.LockUserRewardReply
+	92,  // 175: api.App.AdminRecommendLevelUpdate:output_type -> api.AdminRecommendLevelReply
+	33,  // 176: api.App.AdminBuyList:output_type -> api.AdminBuyListReply
+	108, // [108:177] is the sub-list for method output_type
+	39,  // [39:108] is the sub-list for method input_type
 	39,  // [39:39] is the sub-list for extension type_name
 	39,  // [39:39] is the sub-list for extension extendee
 	0,   // [0:39] is the sub-list for field type_name

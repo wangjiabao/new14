@@ -1986,7 +1986,11 @@ func (a *AppService) CheckAndInsertRecommendArea(ctx context.Context, req *v1.Ch
 }
 
 func (a *AppService) AdminDailyLocationReward(ctx context.Context, req *v1.AdminDailyLocationRewardRequest) (*v1.AdminDailyLocationRewardReply, error) {
-	return a.uuc.AdminDailyLocationReward(ctx, req)
+	return a.uuc.AdminDailyLocationRewardNewTwo(ctx, req)
+}
+
+func (a *AppService) AdminDailyLocationRewardThree(ctx context.Context, req *v1.AdminDailyLocationRewardRequest) (*v1.AdminDailyLocationRewardReply, error) {
+	return a.uuc.AdminDailyLocationRewardNewThree(ctx, req)
 }
 
 func (a *AppService) AdminDailyAreaReward(ctx context.Context, req *v1.AdminDailyLocationRewardRequest) (*v1.AdminDailyLocationRewardReply, error) {

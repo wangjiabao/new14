@@ -79,6 +79,7 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.App/AdminDailyRecommendReward"] = struct{}{}
 	whiteList["/api.App/CheckAndInsertLocationsRecommendUser"] = struct{}{}
 	whiteList["/api.App/CheckAdminUserArea"] = struct{}{}
+	whiteList["/api.App/AdminDailyLocationRewardThree"] = struct{}{}
 	whiteList["/api.App/AdminDailyLocationReward"] = struct{}{}
 	whiteList["/api.App/AdminDailyBalanceReward"] = struct{}{}
 	whiteList["/api.App/LockSystem"] = struct{}{}
