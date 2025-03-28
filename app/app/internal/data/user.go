@@ -5251,12 +5251,12 @@ func (ub *UserBalanceRepo) GetUserRewards(ctx context.Context, b *biz.Pagination
 	} else {
 		tmpReason := make([]string, 0)
 		tmpReason = append(tmpReason, "area")
-		tmpReason = append(tmpReason, "area_two")
-		tmpReason = append(tmpReason, "area_three")
-		tmpReason = append(tmpReason, "recommend")
+		tmpReason = append(tmpReason, "total_two")
+		tmpReason = append(tmpReason, "total_one")
+		tmpReason = append(tmpReason, "recommend_b")
 		tmpReason = append(tmpReason, "location")
-		tmpReason = append(tmpReason, "stake_reward")
-		tmpReason = append(tmpReason, "recommend_level")
+		tmpReason = append(tmpReason, "recommend")
+		tmpReason = append(tmpReason, "recommend_two")
 		instance = instance.Where("reason in (?)", tmpReason)
 	}
 
