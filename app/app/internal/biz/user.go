@@ -3134,7 +3134,11 @@ func (uuc *UserUseCase) AdminDailyLocationRewardNewTwo(ctx context.Context, req 
 	tmpMapCurrentI := make(map[int]float64, 0)
 	tmpB1 := b1
 	for i := 1; i <= 18; i++ {
-		tmpMapCurrentI[i] = tmpB1 / 2
+		if i > 1 {
+			tmpMapCurrentI[i] = tmpB1 / 2
+		} else {
+			tmpMapCurrentI[i] = tmpB1
+		}
 		tmpB1 = tmpMapCurrentI[i]
 	}
 
