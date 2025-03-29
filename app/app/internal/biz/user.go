@@ -3003,7 +3003,8 @@ func (uuc *UserUseCase) AdminDailyLocationRewardNewTwo(ctx context.Context, req 
 		buyRecords []*BuyRecord
 	)
 
-	buyRecords, err = uuc.repo.GetBuyRecord(ctx, -9)
+	//buyRecords, err = uuc.repo.GetBuyRecord(ctx, -9)
+	buyRecords, err = uuc.repo.GetBuyRecord(ctx, 1)
 	if nil != err {
 		fmt.Println("今日分红错误用户获取失败")
 		return nil, nil
