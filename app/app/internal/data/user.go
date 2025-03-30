@@ -692,15 +692,16 @@ func (u *UserRepo) GetBuyRecord(ctx context.Context, day int) ([]*biz.BuyRecord,
 // GetAllUsersOrderAmountBiw .
 func (u *UserRepo) GetAllUsersOrderAmountBiw(ctx context.Context) ([]*biz.User, error) {
 	var users []*User
+
+	res := make([]*biz.User, 0)
 	if err := u.data.db.Table("user").Order("amount_biw desc").Limit(3).Find(&users).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, nil
+			return res, nil
 		}
 
 		return nil, errors.New(500, "USER ERROR", err.Error())
 	}
 
-	res := make([]*biz.User, 0)
 	for _, item := range users {
 		res = append(res, &biz.User{
 			ID:                     item.ID,
@@ -727,15 +728,15 @@ func (u *UserRepo) GetAllUsersOrderAmountBiw(ctx context.Context) ([]*biz.User, 
 // GetAllUsersRecommendOrder .
 func (u *UserRepo) GetAllUsersRecommendOrder(ctx context.Context) ([]*biz.User, error) {
 	var users []*User
+	res := make([]*biz.User, 0)
 	if err := u.data.db.Table("user").Order("amount_recommend_usdt_get asc").Limit(3).Find(&users).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, nil
+			return res, nil
 		}
 
 		return nil, errors.New(500, "USER ERROR", err.Error())
 	}
 
-	res := make([]*biz.User, 0)
 	for _, item := range users {
 		res = append(res, &biz.User{
 			ID:                     item.ID,
