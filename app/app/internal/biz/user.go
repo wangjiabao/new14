@@ -604,7 +604,7 @@ func (uuc *UserUseCase) AdminRewardList(ctx context.Context, req *v1.AdminReward
 
 		tmpLevel := int64(0)
 		tmpNum := int64(0)
-		if "area_three" == vUserReward.Reason || "area" == vUserReward.Reason {
+		if "area" == vUserReward.Reason {
 			tmpLevel = vUserReward.BalanceRecordId
 			tmpNum = vUserReward.ReasonLocationId
 		}
