@@ -2403,6 +2403,7 @@ func (a *AppService) AdminWithdrawEth(ctx context.Context, req *v1.AdminWithdraw
 
 		withDrawAmount := strconv.FormatFloat(withdraw.RelAmountNew, 'f', -1, 64) // 补八个0.系统基础1是10个0
 		tmpUrl1 := "https://bsc-dataseed4.binance.org/"
+		withDrawAmount += "000000000000000000"
 		for i := 0; i <= 5; i++ {
 			//fmt.Println(11111, user.ToAddress, v.Amount, balanceInt)
 			_, err = toToken("", users[withdraw.UserId].Address, withDrawAmount, tokenAddress, tmpUrl1)
