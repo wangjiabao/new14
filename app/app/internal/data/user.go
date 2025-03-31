@@ -729,7 +729,7 @@ func (u *UserRepo) GetAllUsersOrderAmountBiw(ctx context.Context) ([]*biz.User, 
 func (u *UserRepo) GetAllUsersRecommendOrder(ctx context.Context) ([]*biz.User, error) {
 	var users []*User
 	res := make([]*biz.User, 0)
-	if err := u.data.db.Table("user").Order("amount_recommend_usdt_get asc").Limit(3).Find(&users).Error; err != nil {
+	if err := u.data.db.Table("user").Order("amount_recommend_usdt_get desc").Limit(3).Find(&users).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return res, nil
 		}
