@@ -3183,7 +3183,7 @@ func (ui *UserInfoRepo) UpdateUserRewardNew(ctx context.Context, id, userId int6
 		todayStart := time.Date(lasUpdated.Year(), lasUpdated.Month(), lasUpdated.Day(), 16, 0, 0, 0, time.UTC)
 
 		res = ui.data.DB(ctx).Table("buy_record").Where("id=?", id).
-			Updates(map[string]interface{}{"last_updated": todayStart.Unix()})
+			Updates(map[string]interface{}{"last_updated": todayStart.Unix(), "amount_get": float64(1)})
 		if res.Error != nil {
 			return 0, errors.New(500, "UPDATE_USER_ERROR", "用户信息修改失败")
 		}
