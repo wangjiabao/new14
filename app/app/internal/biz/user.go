@@ -43,6 +43,9 @@ type User struct {
 	LockReward             int64
 	CreatedAt              time.Time
 	UpdatedAt              time.Time
+	RecommendUserReward    int64
+	RecommendUser          int64
+	RecommendUserH         int64
 }
 
 type Stake struct {
@@ -2358,10 +2361,6 @@ func (uuc *UserUseCase) AdminFeeDaily(ctx context.Context, req *v1.AdminDailyFee
 
 func (uuc *UserUseCase) AdminAll(ctx context.Context, req *v1.AdminAllRequest) (*v1.AdminAllReply, error) {
 	var (
-		totalDeposit int64
-	)
-
-	var (
 		rewards []*Reward
 		err     error
 		total   *Total
@@ -2376,33 +2375,31 @@ func (uuc *UserUseCase) AdminAll(ctx context.Context, req *v1.AdminAllRequest) (
 		return nil, err
 	}
 
+	totalRU := uint64(0)
+	todayRU := uint64(0)
 	TodayRewardRsdt := float64(0)
 	TodayRewardRsdtOther := float64(0)
-	TodayExchange := float64(0)
-
-	// 社区奖励
-	var (
-		exchanges []*UserBalanceRecord
-	)
-	exchanges, err = uuc.ubRepo.GetSystemYesterdayLocationReward(ctx, 0)
-	if nil != err {
-		return nil, nil
-	}
-
-	for _, v := range exchanges {
-		TodayExchange += v.AmountNewTwo
-	}
-
+	TodayWithdraw := float64(0)
+	todayDeposit := float64(0)
 	for _, v := range rewards {
+		if "deposit" == v.Reason {
+			todayDeposit += v.AmountNew
+		}
 		if "location" == v.Reason {
 			TodayRewardRsdt += v.AmountNew
 		}
-
-		if "recommend" == v.Reason || "area" == v.Reason || "area_two" == v.Reason || "area_three" == v.Reason {
+		if "withdraw" == v.Reason {
+			TodayWithdraw += v.AmountNew
+		}
+		if "recommend_three" == v.Reason {
+			todayRU += uint64(v.AmountNew)
+		}
+		if "recommend" == v.Reason || "recommend_two" == v.Reason || "recommend_b" == v.Reason || "area" == v.Reason {
 			TodayRewardRsdtOther += v.AmountNew
 		}
 	}
 
+	totalDeposit := int64(0)
 	totalDeposit, _ = uuc.ubRepo.GetUserBalanceRecordUsdtTotalThree(ctx)
 	var (
 		users        []*User
@@ -2415,87 +2412,69 @@ func (uuc *UserUseCase) AdminAll(ctx context.Context, req *v1.AdminAllRequest) (
 
 	now := time.Now().UTC()
 	var startDate time.Time
+	var endDate time.Time
 	if 16 <= now.Hour() {
 		startDate = now
+		endDate = now.AddDate(0, 0, -1)
 	} else {
 		startDate = now.AddDate(0, 0, -1)
+		endDate = now
 	}
 
 	todayStart := time.Date(startDate.Year(), startDate.Month(), startDate.Day(), 16, 0, 0, 0, time.UTC)
+	todayEnd := time.Date(endDate.Year(), endDate.Month(), endDate.Day(), 16, 0, 0, 0, time.UTC)
 
+	totalUserR := int64(0)
 	totalUser := int64(0)
+	todayUserR := int64(0)
 	todayUser := int64(0)
-	totalAmountUsdt := float64(0)
+	totalHb := int64(0)
 	for _, v := range users {
-		if 0 < v.AmountUsdt {
+		totalHb += v.RecommendUserH
+		totalUserR++
+		if 0 < v.AmountUsdt || 1 <= v.OutRate {
 			totalUser++
-			totalAmountUsdt += v.AmountUsdt
-			if v.UpdatedAt.After(todayStart) {
+		}
+		totalRU += v.LastBiw
+
+		if v.CreatedAt.After(todayStart) && v.CreatedAt.Before(todayEnd) {
+			todayUserR++
+			if 0 < v.AmountUsdt || 1 <= v.OutRate {
 				todayUser++
-			}
-		} else {
-			if 0 < v.OutRate {
-				totalUser++
-				if v.UpdatedAt.After(todayStart) {
-					todayUser++
-				}
+				todayRU += v.LastBiw
 			}
 		}
 	}
 
 	TotalReward := float64(0)
-	totalRsdt := float64(0)
-	totalRwb := float64(0)
-	totalKsdt := float64(0)
+	balanceUsdtTmp := float64(0)
 	userBalances, err = uuc.repo.GetAllUserBalance(ctx)
 	if nil != err {
 		return nil, err
 	}
-
 	for _, v := range userBalances {
-		tmp := float64(0)
-
-		tmp += v.LocationTotalFloat
-
-		tmp += v.RecommendTotalFloat
-		tmp += v.AreaTotalFloat
-		tmp += v.AreaTotalFloatTwo
-		tmp += v.AreaTotalFloatThree
-
-		TotalReward += tmp
-
-		totalRsdt += v.BalanceUsdtFloat
-		totalKsdt += v.BalanceKsdtFloat
-		totalRwb += v.BalanceRawFloat
-	}
-
-	var (
-		stakes []*Stake
-	)
-	stakes, err = uuc.ubRepo.GetStake(ctx)
-	if nil != err {
-		return nil, err
-	}
-	totalStake := float64(0)
-	for _, v := range stakes {
-		totalStake += v.Amount
+		balanceUsdtTmp += v.BalanceUsdtFloat
+		TotalReward += v.AreaTotalFloat + v.RecommendTotalFloat + v.RecommendTotalFloatTwo + v.LocationTotalFloat
 	}
 
 	return &v1.AdminAllReply{
-		TotalUser:            totalUser,
-		TodayTotalUser:       todayUser,
-		TotalDepositRwb:      strconv.FormatInt(totalDeposit, 10),
-		TotalDestroyRwb:      strconv.FormatInt(totalDeposit, 10),
-		AllLocation:          fmt.Sprintf("%.2f", totalAmountUsdt),
-		TodayRewardRsdt:      fmt.Sprintf("%.2f", TodayRewardRsdt),
-		TodayRewardRsdtOther: fmt.Sprintf("%.2f", TodayRewardRsdtOther),
-		TotalReward:          fmt.Sprintf("%.2f", TotalReward),
-		TotalStake:           fmt.Sprintf("%.2f", totalStake),
-		TodayExchange:        fmt.Sprintf("%.2f", TodayExchange),
-		TotalExchangeRwb:     fmt.Sprintf("%.2f", total.Three),
-		TotalBalanceRsdt:     fmt.Sprintf("%.2f", totalRsdt),
-		TotalBalanceRwb:      fmt.Sprintf("%.2f", totalRwb),
-		TotalBalanceKsdt:     fmt.Sprintf("%.2f", totalKsdt),
+		TotalUserR:    totalUserR,
+		TotalUser:     totalUser,
+		TodayUserR:    todayUserR,
+		TodayUser:     todayUser,
+		TotalSendR:    fmt.Sprintf("%.2f", float64(totalRU)),
+		TodaySendR:    fmt.Sprintf("%.2f", float64(todayRU)),
+		TotalDeposit:  fmt.Sprintf("%.2f", float64(totalDeposit)),
+		TodayDeposit:  fmt.Sprintf("%.2f", todayDeposit),
+		BalanceUsdt:   fmt.Sprintf("%.2f", balanceUsdtTmp),
+		BuyTotal:      fmt.Sprintf("%.2f", total.Two),
+		TodayOne:      fmt.Sprintf("%.2f", TodayRewardRsdt),
+		TodayTwo:      fmt.Sprintf("%.2f", TodayRewardRsdtOther),
+		TodayThree:    fmt.Sprintf("%.2f", TodayRewardRsdtOther+TodayRewardRsdtOther),
+		TotalReward:   fmt.Sprintf("%.2f", TotalReward),
+		TodayWithdraw: fmt.Sprintf("%.2f", TodayWithdraw),
+		TotalWithdraw: fmt.Sprintf("%.2f", total.Three),
+		TotalHb:       fmt.Sprintf("%.2f", float64(totalHb)),
 	}, nil
 }
 

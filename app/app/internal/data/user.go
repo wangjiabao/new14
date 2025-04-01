@@ -37,6 +37,9 @@ type User struct {
 	Lock                   int64     `gorm:"type:int;not null"`
 	CreatedAt              time.Time `gorm:"type:datetime;not null"`
 	UpdatedAt              time.Time `gorm:"type:datetime;not null"`
+	RecommendUserReward    int64     `gorm:"type:int;not null"`
+	RecommendUser          int64     `gorm:"type:int;not null"`
+	RecommendUserH         int64     `gorm:"type:int;not null"`
 }
 
 type Stake struct {
@@ -599,17 +602,18 @@ func (u *UserRepo) GetAllUserBalance(ctx context.Context) ([]*biz.UserBalance, e
 	res := make([]*biz.UserBalance, 0)
 	for _, userBalance := range userBalances {
 		res = append(res, &biz.UserBalance{
-			ID:                  userBalance.ID,
-			UserId:              userBalance.UserId,
-			BalanceRawFloat:     userBalance.BalanceRawFloat,
-			BalanceUsdtFloat:    userBalance.BalanceUsdtFloat,
-			BalanceKsdtFloat:    userBalance.BalanceKsdtFloat,
-			AreaTotalFloat:      userBalance.AreaTotalFloat,
-			AreaTotalFloatTwo:   userBalance.AreaTotalFloatTwo,
-			AreaTotalFloatThree: userBalance.AreaTotalFloatThree,
-			RecommendTotalFloat: userBalance.RecommendTotalFloat,
-			LocationTotalFloat:  userBalance.LocationTotalFloat,
-			RecommendLevelFloat: userBalance.RecommendLevelFloat,
+			ID:                     userBalance.ID,
+			UserId:                 userBalance.UserId,
+			BalanceRawFloat:        userBalance.BalanceRawFloat,
+			BalanceUsdtFloat:       userBalance.BalanceUsdtFloat,
+			BalanceKsdtFloat:       userBalance.BalanceKsdtFloat,
+			AreaTotalFloat:         userBalance.AreaTotalFloat,
+			AreaTotalFloatTwo:      userBalance.AreaTotalFloatTwo,
+			AreaTotalFloatThree:    userBalance.AreaTotalFloatThree,
+			RecommendTotalFloat:    userBalance.RecommendTotalFloat,
+			RecommendTotalFloatTwo: userBalance.RecommendTotalFloatTwo,
+			LocationTotalFloat:     userBalance.LocationTotalFloat,
+			RecommendLevelFloat:    userBalance.RecommendLevelFloat,
 		})
 	}
 
@@ -785,11 +789,14 @@ func (u *UserRepo) GetAllUsers(ctx context.Context) ([]*biz.User, error) {
 			MyTotalAmount:          item.MyTotalAmount,
 			AmountRecommendUsdtGet: item.AmountRecommendUsdtGet,
 			Last:                   item.Last,
+			LastBiw:                item.LastBiw,
 			Vip:                    item.Vip,
 			VipAdmin:               item.VipAdmin,
 			OutRate:                item.OutRate,
 			UpdatedAt:              item.UpdatedAt,
 			LockReward:             item.LockReward,
+			CreatedAt:              item.CreatedAt,
+			RecommendUserH:         item.RecommendUserH,
 		})
 	}
 	return res, nil

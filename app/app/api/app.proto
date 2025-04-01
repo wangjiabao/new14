@@ -826,25 +826,26 @@ message AdminAllRequest {
 }
 
 message AdminAllReply {
-	int64 totalUser = 2; // 激活人数
-	int64 todayTotalUser = 1; // 今日激活人数
+	int64 totalUserR = 1; // 注册人数
+	int64 totalUser = 2; // 激活总人数
+	int64 todayUserR = 3; // 今日注册人数
+	int64 todayUser = 4; // 今日激活人数
 
-	string totalDepositRwb = 4; // 充值rwb数量。
-	string totalDestroyRwb = 6; // 销毁rwb数量。
+	string totalSendR = 5; // 总注册赠送U
+	string todaySendR = 6; // 今日注册赠送U
 
-	string allLocation = 5; // 购买矿机总数
-	string todayRewardRsdt = 11; // 今日静态释放rsdt总数
-	string todayRewardRsdtOther = 12; // 今日动态直推团队平级新增rsdt
+	string totalDeposit = 7; // 总充值U
+	string todayDeposit = 8; // 今日充值U
+	string balanceUsdt = 9; // 全网可提U
+	string buyTotal = 10; // 认购总数
 
-	string totalReward = 13; // 全网动静态释放
-
-	string totalStake = 7; // 全网质押总量
-	string todayExchange = 9; // 今日兑换rwb手续费
-	string totalExchangeRwb = 14; // 总兑换rwb
-
-	string totalBalanceRsdt = 18; // 全网rsdt余额
-	string totalBalanceRwb = 19; // 全网rwb余额
-	string totalBalanceKsdt = 20; // 全网ksdt余额
+	string todayOne = 11; // 今日静态
+	string todayTwo = 12; // 今日动态
+	string todayThree = 13; // 今日动静态
+	string totalReward = 14; // 总动静态累计
+	string todayWithdraw = 15; // 今日提现
+	string totalWithdraw = 16; // 总提现
+	string totalHb = 17; // hb总数
 }
 
 message AdminUserRecommendRequest {

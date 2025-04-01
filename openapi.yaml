@@ -1553,33 +1553,39 @@ components:
         AdminAllReply:
             type: object
             properties:
+                totalUserR:
+                    type: string
                 totalUser:
                     type: string
-                todayTotalUser:
+                todayUserR:
                     type: string
-                totalDepositRwb:
+                todayUser:
                     type: string
-                totalDestroyRwb:
+                totalSendR:
                     type: string
-                allLocation:
+                todaySendR:
                     type: string
-                todayRewardRsdt:
+                totalDeposit:
                     type: string
-                todayRewardRsdtOther:
+                todayDeposit:
+                    type: string
+                balanceUsdt:
+                    type: string
+                buyTotal:
+                    type: string
+                todayOne:
+                    type: string
+                todayTwo:
+                    type: string
+                todayThree:
                     type: string
                 totalReward:
                     type: string
-                totalStake:
+                todayWithdraw:
                     type: string
-                todayExchange:
+                totalWithdraw:
                     type: string
-                totalExchangeRwb:
-                    type: string
-                totalBalanceRsdt:
-                    type: string
-                totalBalanceRwb:
-                    type: string
-                totalBalanceKsdt:
+                totalHb:
                     type: string
         AdminAreaLevelUpdateReply:
             type: object
@@ -1843,8 +1849,13 @@ components:
                     type: string
                     description: |-
                         原因 每一条替换文案
-                         静态收益reason=location，团队收益reason=area，质押收益reason=stake_reward，
-                         平级收益reason=area_three，社区收益reason=area_two，直推收益reason=recommend，
+                         静态收益reason=location
+                         团队收益reason=area
+                         直推一代收益reason=recommend_one
+                         直推二代收益reason=recommend_two
+                         帮扶收益reason=recommend_b
+                         绩效收益reason=total_one
+                         推广收益reason=total_two
                 addressTwo:
                     type: string
                 num:
