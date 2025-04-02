@@ -13,7 +13,7 @@ import (
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/auth/jwt"
-	jwt2 "github.com/golang-jwt/jwt/v4"
+	jwt2 "github.com/golang-jwt/jwt/v5"
 	"io"
 	"math/big"
 	"net/url"
