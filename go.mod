@@ -2,8 +2,6 @@ module dhb
 
 go 1.22.0
 
-toolchain go1.23.7
-
 require (
 	github.com/ethereum/go-ethereum v1.13.5
 	github.com/go-kratos/kratos/v2 v2.8.4
