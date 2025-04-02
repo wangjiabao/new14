@@ -1866,6 +1866,10 @@ func (a *AppService) AdminVipUpdate(ctx context.Context, req *v1.AdminVipUpdateR
 	return a.uuc.AdminVipUpdate(ctx, req)
 }
 
+func (a *AppService) AdminAmountFourUpdate(ctx context.Context, req *v1.AdminAmountFourRequest) (*v1.AdminAmountFourReply, error) {
+	return a.uuc.AdminAmountFourUpdate(ctx, req)
+}
+
 func (a *AppService) VipCheck(ctx context.Context, req *v1.VipCheckRequest) (*v1.VipCheckReply, error) {
 	return a.uuc.VipCheck(ctx, req)
 }

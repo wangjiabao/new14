@@ -35,6 +35,8 @@ type User struct {
 	AmountUsdtGet          float64
 	AmountRecommendUsdtGet float64
 	MyTotalAmount          float64
+	AmountFour             float64
+	AmountFourGet          float64
 	RecommendLevel         int64
 	OutRate                int64
 	Lock                   int64
@@ -411,6 +413,7 @@ type UserInfoRepo interface {
 	UpdateUserRewardStakeReomve(ctx context.Context, userId int64, amountUsdt float64, stakeId int64) (int64, error)
 	UpdateUserRewardStake(ctx context.Context, userId int64, amountUsdt float64, stakeId int64) (int64, error)
 	UpdateUserRewardNew(ctx context.Context, id, userId int64, amountUsdt float64, amountUsdtTotal float64, stop bool) (int64, error)
+	UpdateUserRewardNewFour(ctx context.Context, userId int64, amountUsdt float64) (int64, error)
 	UpdateUserRewardRecommendNew(ctx context.Context, userId int64, amountUsdt float64, amountUsdtTotal float64, stop bool, i int64, address string) (int64, error)
 	UpdateUserReward(ctx context.Context, userId int64, amountUsdt float64, amountUsdtTotal float64, stop bool) (int64, error)
 	UpdateUserRewardRecommend(ctx context.Context, userId int64, amountUsdt float64, amountUsdtTotal float64, stop bool, address string) (int64, error)
@@ -422,6 +425,7 @@ type UserInfoRepo interface {
 	UpdateUserNewTwoNewThree(ctx context.Context, userId int64, amount uint64, last int64, coinType string) error
 	UpdateUserRecommendLevel(ctx context.Context, userId int64, level uint64) error
 	UpdateUserRecommendLevel2(ctx context.Context, userId int64, level uint64) error
+	UpdateUserAmountFour(ctx context.Context, userId int64, amountFour float64) error
 	UpdateUserLast(ctx context.Context, userId int64, coinType string) error
 	CreateUserInfo(ctx context.Context, u *User) (*UserInfo, error)
 	GetUserInfoByUserId(ctx context.Context, userId int64) (*UserInfo, error)
@@ -797,28 +801,9 @@ func (uuc *UserUseCase) AdminUserList(ctx context.Context, req *v1.AdminUserList
 				}
 			}
 		}
-
-		currentLevel := uint64(0)
-		if 1000 <= tmpAreaMin && 5000 > tmpAreaMin {
-			currentLevel = 1
-		} else if 5000 <= tmpAreaMin && 30000 > tmpAreaMin {
-			currentLevel = 2
-		} else if 30000 <= tmpAreaMin && 100000 > tmpAreaMin {
-			currentLevel = 3
-		} else if 100000 <= tmpAreaMin && 300000 > tmpAreaMin {
-			currentLevel = 4
-		} else if 300000 <= tmpAreaMin && 1000000 > tmpAreaMin {
-			currentLevel = 5
-		} else if 1000000 <= tmpAreaMin && 3000000 > tmpAreaMin {
-			currentLevel = 6
-		} else if 3000000 <= tmpAreaMin && 10000000 > tmpAreaMin {
-			currentLevel = 7
-		} else if 10000000 <= tmpAreaMin {
-			currentLevel = 8
-		}
-
-		if 0 < vUsers.Vip {
-			currentLevel = uint64(vUsers.Vip)
+		currentLevel := vUsers.Vip
+		if 0 < vUsers.VipAdmin {
+			currentLevel = vUsers.VipAdmin
 		}
 
 		res.Users = append(res.Users, &v1.AdminUserListReply_UserList{
@@ -827,7 +812,7 @@ func (uuc *UserUseCase) AdminUserList(ctx context.Context, req *v1.AdminUserList
 			Address:           vUsers.Address,
 			BalanceUsdt:       fmt.Sprintf("%.2f", userBalances[vUsers.ID].BalanceUsdtFloat),
 			BalanceDhb:        fmt.Sprintf("%.2f", userBalances[vUsers.ID].BalanceRawFloat),
-			Vip:               int64(currentLevel),
+			Vip:               currentLevel,
 			Out:               vUsers.OutRate,
 			HistoryRecommend:  tmpMyRecommendUserIdsLen,
 			AreaTotal:         vUsers.MyTotalAmount,
@@ -839,6 +824,8 @@ func (uuc *UserUseCase) AdminUserList(ctx context.Context, req *v1.AdminUserList
 			RecommendLevel:    vUsers.RecommendLevel,
 			Lock:              vUsers.Lock,
 			LockReward:        vUsers.LockReward,
+			AmountFour:        fmt.Sprintf("%.2f", vUsers.AmountFour),
+			AmountFourGet:     fmt.Sprintf("%.2f", vUsers.AmountFourGet),
 		})
 	}
 
@@ -1889,6 +1876,19 @@ func (uuc *UserUseCase) AdminVipUpdate(ctx context.Context, req *v1.AdminVipUpda
 	return nil, nil
 }
 
+func (uuc *UserUseCase) AdminAmountFourUpdate(ctx context.Context, req *v1.AdminAmountFourRequest) (*v1.AdminAmountFourReply, error) {
+	var (
+		err error
+	)
+
+	err = uuc.uiRepo.UpdateUserAmountFour(ctx, req.SendBody.UserId, float64(req.SendBody.Amount))
+	if nil != err {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
 func (uuc *UserUseCase) AdminBalanceUpdate(ctx context.Context, req *v1.AdminBalanceUpdateRequest) (*v1.AdminBalanceUpdateReply, error) {
 	var (
 		err error
@@ -2361,9 +2361,11 @@ func (uuc *UserUseCase) AdminFeeDaily(ctx context.Context, req *v1.AdminDailyFee
 
 func (uuc *UserUseCase) AdminAll(ctx context.Context, req *v1.AdminAllRequest) (*v1.AdminAllReply, error) {
 	var (
-		rewards []*Reward
-		err     error
-		total   *Total
+		rewards      []*Reward
+		err          error
+		total        *Total
+		fourTotal    float64
+		fourTotalGet float64
 	)
 	rewards, err = uuc.ubRepo.GetRewardYes(ctx)
 	if nil != err {
@@ -2430,6 +2432,9 @@ func (uuc *UserUseCase) AdminAll(ctx context.Context, req *v1.AdminAllRequest) (
 	todayUser := int64(0)
 	totalHb := int64(0)
 	for _, v := range users {
+		fourTotal += v.AmountFour
+		fourTotalGet += v.AmountFourGet
+
 		totalHb += v.RecommendUserH
 		totalUserR++
 		if 0 < v.AmountUsdt || 1 <= v.OutRate {
@@ -2475,6 +2480,8 @@ func (uuc *UserUseCase) AdminAll(ctx context.Context, req *v1.AdminAllRequest) (
 		TodayWithdraw: fmt.Sprintf("%.2f", TodayWithdraw),
 		TotalWithdraw: fmt.Sprintf("%.2f", total.Three),
 		TotalHb:       fmt.Sprintf("%.2f", float64(totalHb)),
+		AmountFourGet: fmt.Sprintf("%.2f", fourTotalGet),
+		AmountFour:    fmt.Sprintf("%.2f", fourTotal),
 	}, nil
 }
 
@@ -2875,27 +2882,28 @@ func (uuc *UserUseCase) AdminDailyBalanceReward(ctx context.Context, req *v1.Adm
 
 func (uuc *UserUseCase) AdminDailyLocationRewardNewTwo(ctx context.Context, req *v1.AdminDailyLocationRewardRequest) (*v1.AdminDailyLocationRewardReply, error) {
 	var (
-		level1  float64
-		level2  float64
-		level3  float64
-		level4  float64
-		level5  float64
-		vip1    float64
-		vip2    float64
-		vip3    float64
-		vip4    float64
-		vip5    float64
-		vip6    float64
-		vip7    float64
-		vip8    float64
-		vip9    float64
-		vip10   float64
-		b1      float64
-		configs []*Config
-		err     error
+		level1   float64
+		level2   float64
+		level3   float64
+		level4   float64
+		level5   float64
+		vip1     float64
+		vip2     float64
+		vip3     float64
+		vip4     float64
+		vip5     float64
+		vip6     float64
+		vip7     float64
+		vip8     float64
+		vip9     float64
+		vip10    float64
+		b1       float64
+		fourRate float64
+		configs  []*Config
+		err      error
 	)
 
-	configs, _ = uuc.configRepo.GetConfigByKeys(ctx, "level_2", "level_3", "level_4", "level_5", "level_1", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v9", "v8", "v10", "b_1")
+	configs, _ = uuc.configRepo.GetConfigByKeys(ctx, "level_2", "level_3", "level_4", "level_5", "level_1", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v9", "v8", "v10", "b_1", "four_rate")
 	if nil != configs {
 		for _, vConfig := range configs {
 			if "level_1" == vConfig.KeyName {
@@ -2930,6 +2938,8 @@ func (uuc *UserUseCase) AdminDailyLocationRewardNewTwo(ctx context.Context, req 
 				vip10, _ = strconv.ParseFloat(vConfig.Value, 10)
 			} else if "b_1" == vConfig.KeyName {
 				b1, _ = strconv.ParseFloat(vConfig.Value, 10)
+			} else if "four_rate" == vConfig.KeyName {
+				fourRate, _ = strconv.ParseFloat(vConfig.Value, 10)
 			}
 		}
 	}
@@ -3143,6 +3153,10 @@ func (uuc *UserUseCase) AdminDailyLocationRewardNewTwo(ctx context.Context, req 
 		}
 
 		if _, ok := usersMap[vBuyRecords.UserId]; !ok {
+			continue
+		}
+
+		if 1 == usersMap[vBuyRecords.UserId].LockReward {
 			continue
 		}
 
@@ -3364,6 +3378,10 @@ func (uuc *UserUseCase) AdminDailyLocationRewardNewTwo(ctx context.Context, req 
 	// 小区
 	for _, vBuyRecords := range buyRecords {
 		if _, ok := usersMap[vBuyRecords.UserId]; !ok {
+			continue
+		}
+
+		if 1 == usersMap[vBuyRecords.UserId].LockReward {
 			continue
 		}
 
@@ -3605,6 +3623,41 @@ func (uuc *UserUseCase) AdminDailyLocationRewardNewTwo(ctx context.Context, req 
 					}
 				}
 			}
+		}
+	}
+
+	for _, vUsers := range users {
+		if 0 >= vUsers.AmountFour {
+			continue
+		}
+
+		if vUsers.AmountFour <= vUsers.AmountFourGet {
+			continue
+		}
+
+		tmp := fourRate * vUsers.AmountFour
+		if tmp+vUsers.AmountFourGet >= vUsers.AmountFour {
+			tmp = math.Abs(vUsers.AmountFour - vUsers.AmountFourGet)
+		}
+
+		tmp = math.Round(tmp*10000000) / 10000000
+		if 0 >= tmp {
+			continue
+		}
+
+		if err = uuc.tx.ExecTx(ctx, func(ctx context.Context) error { // 事务
+			var (
+				code int64
+			)
+			code, err = uuc.uiRepo.UpdateUserRewardNewFour(ctx, vUsers.ID, tmp)
+			if code > 0 && err != nil {
+				fmt.Println("错误基金：", err, vUsers)
+			}
+
+			return nil
+		}); nil != err {
+			fmt.Println("err reward jj daily", err, vUsers)
+			continue
 		}
 	}
 

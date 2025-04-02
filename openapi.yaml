@@ -121,6 +121,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /api/admin_dhb/amount_four_update:
+        post:
+            tags:
+                - App
+            operationId: App_AdminAmountFourUpdate
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AdminAmountFourRequest_SendBody'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AdminAmountFourReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /api/admin_dhb/auth_create:
         post:
             tags:
@@ -479,29 +503,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /api/admin_dhb/daily_location_reward:
-        get:
-            tags:
-                - App
-            operationId: App_AdminDailyLocationReward
-            parameters:
-                - name: date
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/AdminDailyLocationRewardReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
     /api/admin_dhb/daily_location_reward_new:
         get:
             tags:
@@ -514,29 +515,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/AdminDailyLocationRewardNewReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /api/admin_dhb/daily_location_reward_three:
-        get:
-            tags:
-                - App
-            operationId: App_AdminDailyLocationRewardThree
-            parameters:
-                - name: date
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/AdminDailyLocationRewardReply'
                 default:
                     description: Default error response
                     content:
@@ -994,6 +972,52 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/MyAuthListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/admin_dhb/new_daily_location_reward:
+        get:
+            tags:
+                - App
+            operationId: App_AdminDailyLocationReward
+            parameters:
+                - name: date
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AdminDailyLocationRewardReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/admin_dhb/new_daily_location_reward_three:
+        get:
+            tags:
+                - App
+            operationId: App_AdminDailyLocationRewardThree
+            parameters:
+                - name: date
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AdminDailyLocationRewardReply'
                 default:
                     description: Default error response
                     content:
@@ -1587,6 +1611,20 @@ components:
                     type: string
                 totalHb:
                     type: string
+                amountFour:
+                    type: string
+                amountFourGet:
+                    type: string
+        AdminAmountFourReply:
+            type: object
+            properties: {}
+        AdminAmountFourRequest_SendBody:
+            type: object
+            properties:
+                userId:
+                    type: string
+                amount:
+                    type: string
         AdminAreaLevelUpdateReply:
             type: object
             properties: {}
@@ -1953,6 +1991,10 @@ components:
                 lock:
                     type: string
                 lockReward:
+                    type: string
+                amountFour:
+                    type: string
+                amountFourGet:
                     type: string
         AdminUserRecommendReply:
             type: object

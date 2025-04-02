@@ -282,6 +282,13 @@ service App {
 		};
 	};
 
+	rpc AdminAmountFourUpdate (AdminAmountFourRequest) returns (AdminAmountFourReply) {
+		option (google.api.http) = {
+			post: "/api/admin_dhb/amount_four_update"
+			body: "send_body"
+		};
+	};
+
 	rpc AdminUndoUpdate (AdminUndoUpdateRequest) returns (AdminUndoUpdateReply) {
 		option (google.api.http) = {
 			post: "/api/admin_dhb/undo_update"
@@ -389,13 +396,13 @@ service App {
 
 	rpc AdminDailyLocationReward (AdminDailyLocationRewardRequest) returns (AdminDailyLocationRewardReply) {
 		option (google.api.http) = {
-			get: "/api/admin_dhb/daily_location_reward"
+			get: "/api/admin_dhb/new_daily_location_reward"
 		};
 	};
 
 	rpc AdminDailyLocationRewardThree (AdminDailyLocationRewardRequest) returns (AdminDailyLocationRewardReply) {
 		option (google.api.http) = {
-			get: "/api/admin_dhb/daily_location_reward_three"
+			get: "/api/admin_dhb/new_daily_location_reward_three"
 		};
 	};
 
@@ -682,6 +689,8 @@ message AdminUserListReply { // 用户信息
 		int64 historyRecommend = 6; // 历史推荐人数
 		int64 lock = 12; // 锁定状态
 		int64 lockReward = 13; // 开启禁止上级分红 1表示开启，0表示关闭
+		string amountFour = 21; //
+		string amountFourGet = 22; //
 	}
 
 	int64 count = 2;
@@ -846,6 +855,9 @@ message AdminAllReply {
 	string todayWithdraw = 15; // 今日提现
 	string totalWithdraw = 16; // 总提现
 	string totalHb = 17; // hb总数
+
+	string amountFour = 18; // hb总数
+	string amountFourGet = 19; // hb总数
 }
 
 message AdminUserRecommendRequest {
@@ -989,6 +1001,20 @@ message AdminUpdateLocationNewMaxRequest {
 }
 
 message AdminUpdateLocationNewMaxReply {
+
+}
+
+
+message AdminAmountFourRequest {
+	message SendBody{
+		int64 user_id = 1;
+		int64 amount = 2;
+	}
+
+	SendBody send_body = 1;
+}
+
+message AdminAmountFourReply {
 
 }
 
