@@ -699,7 +699,7 @@ message AdminUserListReply { // 用户信息
 		string amountFour = 21; //
 		string amountFourGet = 22; //
 		string password = 23;
-		string fou = 24;
+		int64 four = 24;
 	}
 
 	int64 count = 2;

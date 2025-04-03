@@ -829,6 +829,7 @@ func (uuc *UserUseCase) AdminUserList(ctx context.Context, req *v1.AdminUserList
 			AmountFour:        fmt.Sprintf("%.2f", vUsers.AmountFour),
 			AmountFourGet:     fmt.Sprintf("%.2f", vUsers.AmountFourGet),
 			Password:          vUsers.Password,
+			Four:              int64(vUsers.Amount),
 		})
 	}
 
