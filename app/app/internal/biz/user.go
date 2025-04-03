@@ -21,6 +21,7 @@ type User struct {
 	ID                     int64
 	Address                string
 	Undo                   int64
+	Password               string
 	AddressTwo             string
 	PrivateKey             string
 	AddressThree           string
@@ -425,6 +426,7 @@ type UserInfoRepo interface {
 	UpdateUserNewTwoNewThree(ctx context.Context, userId int64, amount uint64, last int64, coinType string) error
 	UpdateUserRecommendLevel(ctx context.Context, userId int64, level uint64) error
 	UpdateUserRecommendLevel2(ctx context.Context, userId int64, level uint64) error
+	UpdateUserPass(ctx context.Context, userId int64, pass string) error
 	UpdateUserAmountFour(ctx context.Context, userId int64, amountFour float64) error
 	UpdateUserLast(ctx context.Context, userId int64, coinType string) error
 	CreateUserInfo(ctx context.Context, u *User) (*UserInfo, error)
@@ -826,6 +828,7 @@ func (uuc *UserUseCase) AdminUserList(ctx context.Context, req *v1.AdminUserList
 			LockReward:        vUsers.LockReward,
 			AmountFour:        fmt.Sprintf("%.2f", vUsers.AmountFour),
 			AmountFourGet:     fmt.Sprintf("%.2f", vUsers.AmountFourGet),
+			Password:          vUsers.Password,
 		})
 	}
 
@@ -1869,6 +1872,19 @@ func (uuc *UserUseCase) AdminVipUpdate(ctx context.Context, req *v1.AdminVipUpda
 	)
 
 	err = uuc.uiRepo.UpdateUserRecommendLevel2(ctx, req.SendBody.UserId, uint64(req.SendBody.Vip))
+	if nil != err {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+func (uuc *UserUseCase) AdminSetPass(ctx context.Context, req *v1.AdminSetPassRequest) (*v1.AdminSetPassReply, error) {
+	var (
+		err error
+	)
+
+	err = uuc.uiRepo.UpdateUserPass(ctx, req.SendBody.UserId, req.SendBody.Pass)
 	if nil != err {
 		return nil, err
 	}

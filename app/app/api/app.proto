@@ -282,6 +282,13 @@ service App {
 		};
 	};
 
+	rpc AdminSetPass (AdminSetPassRequest) returns (AdminSetPassReply) {
+		option (google.api.http) = {
+			post: "/api/admin_dhb/set_pass"
+			body: "send_body"
+		};
+	};
+
 	rpc AdminAmountFourUpdate (AdminAmountFourRequest) returns (AdminAmountFourReply) {
 		option (google.api.http) = {
 			post: "/api/admin_dhb/amount_four_update"
@@ -691,6 +698,7 @@ message AdminUserListReply { // 用户信息
 		int64 lockReward = 13; // 开启禁止上级分红 1表示开启，0表示关闭
 		string amountFour = 21; //
 		string amountFourGet = 22; //
+		string password = 23;
 	}
 
 	int64 count = 2;
@@ -1018,6 +1026,18 @@ message AdminAmountFourReply {
 
 }
 
+message AdminSetPassRequest {
+	message SendBody{
+		int64 user_id = 1;
+		string pass = 2;
+	}
+
+	SendBody send_body = 1;
+}
+
+message AdminSetPassReply {
+
+}
 
 message AdminVipUpdateRequest {
 	message SendBody{
