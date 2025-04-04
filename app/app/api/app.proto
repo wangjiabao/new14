@@ -858,6 +858,8 @@ message AdminAllReply {
 
 	string amountFour = 18; // hb总数
 	string amountFourGet = 19; // hb总数
+
+	uint64 amountUsdt = 20;
 }
 
 message AdminUserRecommendRequest {

@@ -1615,6 +1615,8 @@ components:
                     type: string
                 amountFourGet:
                     type: string
+                amountUsdt:
+                    type: string
         AdminAmountFourReply:
             type: object
             properties: {}

@@ -2432,7 +2432,9 @@ func (uuc *UserUseCase) AdminAll(ctx context.Context, req *v1.AdminAllRequest) (
 	todayUserR := int64(0)
 	todayUser := int64(0)
 	totalHb := int64(0)
+	totalAmount := uint64(0)
 	for _, v := range users {
+		totalAmount += v.Amount
 		fourTotal += v.AmountFour
 		fourTotalGet += v.AmountFourGet
 
@@ -2483,6 +2485,7 @@ func (uuc *UserUseCase) AdminAll(ctx context.Context, req *v1.AdminAllRequest) (
 		TotalHb:       fmt.Sprintf("%.2f", float64(totalHb)),
 		AmountFourGet: fmt.Sprintf("%.2f", fourTotalGet),
 		AmountFour:    fmt.Sprintf("%.2f", fourTotal),
+		AmountUsdt:    totalAmount,
 	}, nil
 }
 
