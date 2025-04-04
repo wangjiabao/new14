@@ -438,6 +438,8 @@ func (u *UserRepo) GetUserById(ctx context.Context, Id int64) (*biz.User, error)
 		Address:        user.Address,
 		RecommendLevel: user.RecommendLevel,
 		OutRate:        user.OutRate,
+		AmountFourGet:  user.AmountFourGet,
+		AmountFour:     user.AmountFour,
 	}, nil
 }
 
@@ -3623,9 +3625,13 @@ func (ui *UserInfoRepo) UpdateUserRecommendLevel2(ctx context.Context, userId in
 }
 
 // UpdateUserAmountFour .
-func (ui *UserInfoRepo) UpdateUserAmountFour(ctx context.Context, userId int64, amountFour float64) error {
+func (ui *UserInfoRepo) UpdateUserAmountFour(ctx context.Context, userId int64, amountFour float64, do bool) error {
+	updateMap := map[string]interface{}{"amount_four": amountFour}
+	if do {
+		updateMap["amount_four_get"] = 0
+	}
 	res := ui.data.DB(ctx).Table("user").Where("id=?", userId).
-		Updates(map[string]interface{}{"amount_four": gorm.Expr("amount_four + ?", amountFour)})
+		Updates(updateMap)
 	if res.Error != nil {
 		return errors.New(500, "UPDATE_USER_ERROR", "用户信息修改失败")
 	}

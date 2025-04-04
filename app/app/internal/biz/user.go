@@ -427,7 +427,7 @@ type UserInfoRepo interface {
 	UpdateUserRecommendLevel(ctx context.Context, userId int64, level uint64) error
 	UpdateUserRecommendLevel2(ctx context.Context, userId int64, level uint64) error
 	UpdateUserPass(ctx context.Context, userId int64, pass string) error
-	UpdateUserAmountFour(ctx context.Context, userId int64, amountFour float64) error
+	UpdateUserAmountFour(ctx context.Context, userId int64, amountFour float64, do bool) error
 	UpdateUserLast(ctx context.Context, userId int64, coinType string) error
 	CreateUserInfo(ctx context.Context, u *User) (*UserInfo, error)
 	GetUserInfoByUserId(ctx context.Context, userId int64) (*UserInfo, error)
@@ -1895,10 +1895,21 @@ func (uuc *UserUseCase) AdminSetPass(ctx context.Context, req *v1.AdminSetPassRe
 
 func (uuc *UserUseCase) AdminAmountFourUpdate(ctx context.Context, req *v1.AdminAmountFourRequest) (*v1.AdminAmountFourReply, error) {
 	var (
-		err error
+		err  error
+		user *User
 	)
 
-	err = uuc.uiRepo.UpdateUserAmountFour(ctx, req.SendBody.UserId, float64(req.SendBody.Amount))
+	user, err = uuc.repo.GetUserById(ctx, req.SendBody.UserId)
+	if nil != err {
+		return nil, err
+	}
+
+	var do bool
+	if int64(user.AmountFourGet) >= req.SendBody.Amount {
+		do = true
+	}
+
+	err = uuc.uiRepo.UpdateUserAmountFour(ctx, req.SendBody.UserId, float64(req.SendBody.Amount), do)
 	if nil != err {
 		return nil, err
 	}
