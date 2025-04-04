@@ -1106,6 +1106,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /api/admin_dhb/set_pass:
+        post:
+            tags:
+                - App
+            operationId: App_AdminSetPass
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AdminSetPassRequest_SendBody'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AdminSetPassReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /api/admin_dhb/test_money:
         get:
             tags:
@@ -1902,6 +1926,16 @@ components:
                     type: string
                 level:
                     type: string
+        AdminSetPassReply:
+            type: object
+            properties: {}
+        AdminSetPassRequest_SendBody:
+            type: object
+            properties:
+                userId:
+                    type: string
+                pass:
+                    type: string
         AdminTradeListReply:
             type: object
             properties:
@@ -1997,6 +2031,10 @@ components:
                 amountFour:
                     type: string
                 amountFourGet:
+                    type: string
+                password:
+                    type: string
+                four:
                     type: string
         AdminUserRecommendReply:
             type: object

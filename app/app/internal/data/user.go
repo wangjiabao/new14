@@ -947,6 +947,7 @@ func (u *UserRepo) GetUsers(ctx context.Context, b *biz.Pagination, address stri
 		res = append(res, &biz.User{
 			ID:               item.ID,
 			Address:          item.Address,
+			Password:         item.Password,
 			CreatedAt:        item.CreatedAt,
 			Amount:           item.Amount,
 			AmountUsdt:       item.AmountUsdt,
@@ -3592,6 +3593,17 @@ func (ui *UserInfoRepo) UpdateUserNewTwoNewThree(ctx context.Context, userId int
 func (ui *UserInfoRepo) UpdateUserRecommendLevel(ctx context.Context, userId int64, level uint64) error {
 	res := ui.data.DB(ctx).Table("user").Where("id=?", userId).
 		Updates(map[string]interface{}{"recommend_level": level})
+	if res.Error != nil {
+		return errors.New(500, "UPDATE_USER_ERROR", "用户信息修改失败")
+	}
+
+	return nil
+}
+
+// UpdateUserPass .
+func (ui *UserInfoRepo) UpdateUserPass(ctx context.Context, userId int64, pass string) error {
+	res := ui.data.DB(ctx).Table("user").Where("id=?", userId).
+		Updates(map[string]interface{}{"password": pass})
 	if res.Error != nil {
 		return errors.New(500, "UPDATE_USER_ERROR", "用户信息修改失败")
 	}
