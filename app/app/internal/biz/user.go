@@ -423,7 +423,7 @@ type UserInfoRepo interface {
 	UpdateUserRewardRecommendUserGet(ctx context.Context, userId int64, amountUsdt float64, enough bool, amount float64) error
 	UpdateUserMyTotalAmount(ctx context.Context, userId int64, amountUsdt float64) error
 	UpdateTotalOne(ctx context.Context, amountUsdt float64) error
-	UpdateUserNewTwoNewThree(ctx context.Context, userId int64, amount uint64, last int64, coinType string) error
+	UpdateUserNewTwoNewThree(ctx context.Context, userId int64, amount uint64, last uint64, coinType string) error
 	UpdateUserRecommendLevel(ctx context.Context, userId int64, level uint64) error
 	UpdateUserRecommendLevel2(ctx context.Context, userId int64, level uint64) error
 	UpdateUserPass(ctx context.Context, userId int64, pass string) error
@@ -7773,7 +7773,7 @@ func (uuc *UserUseCase) AdminAddMoney(ctx context.Context, req *v1.AdminDailyAdd
 
 	if nil != user && 0 < user.ID {
 		if err = uuc.tx.ExecTx(ctx, func(ctx context.Context) error { //
-			err = uuc.uiRepo.UpdateUserNewTwoNewThree(ctx, user.ID, uint64(req.Usdt), 0, "USDT")
+			err = uuc.uiRepo.UpdateUserNewTwoNewThree(ctx, user.ID, uint64(req.Usdt), user.Amount, "USDT")
 			if nil != err {
 				return err
 			}

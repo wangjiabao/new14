@@ -358,6 +358,7 @@ func (u *UserRepo) GetUserByAddressTwo(ctx context.Context, address string) (*bi
 	return &biz.User{
 		ID:      user.ID,
 		Address: user.Address,
+		Amount:  user.Amount,
 	}, nil
 }
 
@@ -3581,11 +3582,22 @@ func (ui *UserInfoRepo) UpdateUserRewardAreaTwo(ctx context.Context, userId int6
 }
 
 // UpdateUserNewTwoNewThree .
-func (ui *UserInfoRepo) UpdateUserNewTwoNewThree(ctx context.Context, userId int64, amount uint64, last int64, coinType string) error {
+func (ui *UserInfoRepo) UpdateUserNewTwoNewThree(ctx context.Context, userId int64, amount uint64, last uint64, coinType string) error {
 	if err := ui.data.DB(ctx).Table("user").
 		Where("id=?", userId).
 		Updates(map[string]interface{}{"amount": amount}).Error; nil != err {
 		return errors.NotFound("user balance err", "user balance not found")
+	}
+
+	var reward Reward
+	reward.UserId = userId
+	reward.AmountNew = float64(amount)
+	reward.AmountNewTwo = float64(last)
+	reward.Type = "system_reward_area_two_daily" // 本次分红的行为类型
+	reward.Reason = "deposit_two"
+	err := ui.data.DB(ctx).Table("reward").Create(&reward).Error
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -5339,15 +5351,15 @@ func (ub *UserBalanceRepo) GetUserRewards(ctx context.Context, b *biz.Pagination
 	if "" != reason {
 		instance = instance.Where("reason=?", reason)
 	} else {
-		tmpReason := make([]string, 0)
-		tmpReason = append(tmpReason, "area")
-		tmpReason = append(tmpReason, "total_two")
-		tmpReason = append(tmpReason, "total_one")
-		tmpReason = append(tmpReason, "recommend_b")
-		tmpReason = append(tmpReason, "location")
-		tmpReason = append(tmpReason, "recommend")
-		tmpReason = append(tmpReason, "recommend_two")
-		instance = instance.Where("reason in (?)", tmpReason)
+		//tmpReason := make([]string, 0)
+		//tmpReason = append(tmpReason, "area")
+		//tmpReason = append(tmpReason, "total_two")
+		//tmpReason = append(tmpReason, "total_one")
+		//tmpReason = append(tmpReason, "recommend_b")
+		//tmpReason = append(tmpReason, "location")
+		//tmpReason = append(tmpReason, "recommend")
+		//tmpReason = append(tmpReason, "recommend_two")
+		//instance = instance.Where("reason in (?)", tmpReason)
 	}
 
 	instance = instance.Count(&count)
