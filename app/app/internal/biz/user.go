@@ -7766,14 +7766,14 @@ func (uuc *UserUseCase) AdminAddMoney(ctx context.Context, req *v1.AdminDailyAdd
 		user *User
 		err  error
 	)
-	user, err = uuc.repo.GetUserByAddressTwo(ctx, req.Address)
+	user, err = uuc.repo.GetUserByAddressTwo(ctx, req.SendBody.Address)
 	if nil != err {
 		return nil, nil
 	}
 
 	if nil != user && 0 < user.ID {
 		if err = uuc.tx.ExecTx(ctx, func(ctx context.Context) error { //
-			err = uuc.uiRepo.UpdateUserNewTwoNewThree(ctx, user.ID, uint64(req.Usdt), user.Amount, "USDT")
+			err = uuc.uiRepo.UpdateUserNewTwoNewThree(ctx, user.ID, uint64(req.SendBody.Usdt), user.Amount, "USDT")
 			if nil != err {
 				return err
 			}
