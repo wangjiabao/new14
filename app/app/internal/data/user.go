@@ -1529,10 +1529,11 @@ func (ub UserBalanceRepo) GetUserBalance(ctx context.Context, userId int64) (*bi
 	}
 
 	return &biz.UserBalance{
-		ID:          userBalance.ID,
-		UserId:      userBalance.UserId,
-		BalanceUsdt: userBalance.BalanceUsdt,
-		BalanceDhb:  userBalance.BalanceDhb,
+		ID:               userBalance.ID,
+		UserId:           userBalance.UserId,
+		BalanceUsdt:      userBalance.BalanceUsdt,
+		BalanceDhb:       userBalance.BalanceDhb,
+		BalanceUsdtFloat: userBalance.BalanceUsdtFloat,
 	}, nil
 }
 
@@ -3595,6 +3596,28 @@ func (ui *UserInfoRepo) UpdateUserNewTwoNewThree(ctx context.Context, userId int
 	reward.AmountNewTwo = float64(last)
 	reward.Type = "system_reward_area_two_daily" // 本次分红的行为类型
 	reward.Reason = "deposit_two"
+	err := ui.data.DB(ctx).Table("reward").Create(&reward).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// UpdateUserUsdtFloat .
+func (ui *UserInfoRepo) UpdateUserUsdtFloat(ctx context.Context, userId int64, amount float64, last float64, coinType string) error {
+	if err := ui.data.DB(ctx).Table("user_balance").
+		Where("user_id=?", userId).
+		Updates(map[string]interface{}{"balance_usdt_float": amount}).Error; nil != err {
+		return errors.NotFound("user balance err", "user balance not found")
+	}
+
+	var reward Reward
+	reward.UserId = userId
+	reward.AmountNew = amount
+	reward.AmountNewTwo = last
+	reward.Type = "system_reward_area_two_daily" // 本次分红的行为类型
+	reward.Reason = "deposit_three"
 	err := ui.data.DB(ctx).Table("reward").Create(&reward).Error
 	if err != nil {
 		return err

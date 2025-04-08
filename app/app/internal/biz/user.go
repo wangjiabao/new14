@@ -424,6 +424,7 @@ type UserInfoRepo interface {
 	UpdateUserMyTotalAmount(ctx context.Context, userId int64, amountUsdt float64) error
 	UpdateTotalOne(ctx context.Context, amountUsdt float64) error
 	UpdateUserNewTwoNewThree(ctx context.Context, userId int64, amount uint64, last uint64, coinType string) error
+	UpdateUserUsdtFloat(ctx context.Context, userId int64, amount float64, last float64, coinType string) error
 	UpdateUserRecommendLevel(ctx context.Context, userId int64, level uint64) error
 	UpdateUserRecommendLevel2(ctx context.Context, userId int64, level uint64) error
 	UpdateUserPass(ctx context.Context, userId int64, pass string) error
@@ -7774,6 +7775,39 @@ func (uuc *UserUseCase) AdminAddMoney(ctx context.Context, req *v1.AdminDailyAdd
 	if nil != user && 0 < user.ID {
 		if err = uuc.tx.ExecTx(ctx, func(ctx context.Context) error { //
 			err = uuc.uiRepo.UpdateUserNewTwoNewThree(ctx, user.ID, uint64(req.SendBody.Usdt), user.Amount, "USDT")
+			if nil != err {
+				return err
+			}
+
+			return nil
+		}); nil != err {
+			return nil, err
+		}
+	}
+
+	return nil, nil
+}
+
+// AdminAddMoneyTwo  .
+func (uuc *UserUseCase) AdminAddMoneyTwo(ctx context.Context, req *v1.AdminDailyAddMoneyRequest) (*v1.AdminDailyAddMoneyReply, error) {
+	var (
+		user       *User
+		userBlance *UserBalance
+		err        error
+	)
+	user, err = uuc.repo.GetUserByAddressTwo(ctx, req.SendBody.Address)
+	if nil != err {
+		return nil, nil
+	}
+
+	userBlance, err = uuc.ubRepo.GetUserBalance(ctx, user.ID)
+	if nil != err {
+		return nil, nil
+	}
+
+	if nil != user && nil != userBlance && 0 < user.ID {
+		if err = uuc.tx.ExecTx(ctx, func(ctx context.Context) error { //
+			err = uuc.uiRepo.UpdateUserUsdtFloat(ctx, user.ID, float64(req.SendBody.Usdt), userBlance.BalanceUsdtFloat, "USDT")
 			if nil != err {
 				return err
 			}

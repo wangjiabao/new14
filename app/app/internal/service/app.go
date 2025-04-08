@@ -1046,6 +1046,11 @@ func (a *AppService) AdminAddMoney(ctx context.Context, req *v1.AdminDailyAddMon
 	return a.uuc.AdminAddMoney(ctx, req)
 }
 
+// AdminAddMoneyTwo  .
+func (a *AppService) AdminAddMoneyTwo(ctx context.Context, req *v1.AdminDailyAddMoneyRequest) (*v1.AdminDailyAddMoneyReply, error) {
+	return a.uuc.AdminAddMoneyTwo(ctx, req)
+}
+
 // AdminRecommendLevelUpdate  .
 func (a *AppService) AdminRecommendLevelUpdate(ctx context.Context, req *v1.AdminRecommendLevelRequest) (*v1.AdminRecommendLevelReply, error) {
 	return a.uuc.AdminRecommendLevelUpdate(ctx, req)
