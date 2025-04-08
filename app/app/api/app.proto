@@ -432,6 +432,12 @@ service App {
 		};
 	};
 
+	rpc AdminAddMoneyTwo(AdminDailyAddMoneyTwoRequest) returns (AdminDailyAddMoneyTwoReply) {
+		option (google.api.http) = {
+			get: "/api/admin_dhb/add_money_two"
+		};
+	};
+
 	rpc TestMoney(TestMoneyRequest) returns (TestMoneyReply) {
 		option (google.api.http) = {
 			get: "/api/admin_dhb/test_money"
@@ -1234,6 +1240,16 @@ message AdminDailyAddMoneyRequest {
 
 message AdminDailyAddMoneyReply {
 }
+
+
+message AdminDailyAddMoneyTwoRequest {
+		int64 usdt = 1;
+		string address = 3;
+}
+
+message AdminDailyAddMoneyTwoReply {
+}
+
 
 message TestMoneyRequest {
 

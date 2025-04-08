@@ -1047,7 +1047,7 @@ func (a *AppService) AdminAddMoney(ctx context.Context, req *v1.AdminDailyAddMon
 }
 
 // AdminAddMoneyTwo  .
-func (a *AppService) AdminAddMoneyTwo(ctx context.Context, req *v1.AdminDailyAddMoneyRequest) (*v1.AdminDailyAddMoneyReply, error) {
+func (a *AppService) AdminAddMoneyTwo(ctx context.Context, req *v1.AdminDailyAddMoneyTwoRequest) (*v1.AdminDailyAddMoneyTwoReply, error) {
 	return a.uuc.AdminAddMoneyTwo(ctx, req)
 }
 

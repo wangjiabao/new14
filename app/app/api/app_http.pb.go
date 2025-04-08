@@ -20,6 +20,7 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationAppAdminAddMoney = "/api.App/AdminAddMoney"
+const OperationAppAdminAddMoneyTwo = "/api.App/AdminAddMoneyTwo"
 const OperationAppAdminAll = "/api.App/AdminAll"
 const OperationAppAdminAmountFourUpdate = "/api.App/AdminAmountFourUpdate"
 const OperationAppAdminAreaLevelUpdate = "/api.App/AdminAreaLevelUpdate"
@@ -93,6 +94,7 @@ const OperationAppWithdrawList = "/api.App/WithdrawList"
 
 type AppHTTPServer interface {
 	AdminAddMoney(context.Context, *AdminDailyAddMoneyRequest) (*AdminDailyAddMoneyReply, error)
+	AdminAddMoneyTwo(context.Context, *AdminDailyAddMoneyTwoRequest) (*AdminDailyAddMoneyTwoReply, error)
 	AdminAll(context.Context, *AdminAllRequest) (*AdminAllReply, error)
 	AdminAmountFourUpdate(context.Context, *AdminAmountFourRequest) (*AdminAmountFourReply, error)
 	AdminAreaLevelUpdate(context.Context, *AdminAreaLevelUpdateRequest) (*AdminAreaLevelUpdateReply, error)
@@ -233,6 +235,7 @@ func RegisterAppHTTPServer(s *http.Server, srv AppHTTPServer) {
 	r.GET("/api/admin_dhb/daily_area_reward", _App_AdminDailyAreaReward0_HTTP_Handler(srv))
 	r.GET("/api/admin_dhb/daily_location_reward_new", _App_AdminDailyLocationRewardNew0_HTTP_Handler(srv))
 	r.POST("/api/admin_dhb/add_money", _App_AdminAddMoney0_HTTP_Handler(srv))
+	r.GET("/api/admin_dhb/add_money_two", _App_AdminAddMoneyTwo0_HTTP_Handler(srv))
 	r.GET("/api/admin_dhb/test_money", _App_TestMoney0_HTTP_Handler(srv))
 	r.POST("/api/admin_dhb/lock_user", _App_LockUser0_HTTP_Handler(srv))
 	r.POST("/api/admin_dhb/lock_user_reward", _App_LockUserReward0_HTTP_Handler(srv))
@@ -1548,6 +1551,25 @@ func _App_AdminAddMoney0_HTTP_Handler(srv AppHTTPServer) func(ctx http.Context) 
 	}
 }
 
+func _App_AdminAddMoneyTwo0_HTTP_Handler(srv AppHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in AdminDailyAddMoneyTwoRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAppAdminAddMoneyTwo)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.AdminAddMoneyTwo(ctx, req.(*AdminDailyAddMoneyTwoRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*AdminDailyAddMoneyTwoReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 func _App_TestMoney0_HTTP_Handler(srv AppHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in TestMoneyRequest
@@ -1654,6 +1676,7 @@ func _App_AdminBuyList0_HTTP_Handler(srv AppHTTPServer) func(ctx http.Context) e
 
 type AppHTTPClient interface {
 	AdminAddMoney(ctx context.Context, req *AdminDailyAddMoneyRequest, opts ...http.CallOption) (rsp *AdminDailyAddMoneyReply, err error)
+	AdminAddMoneyTwo(ctx context.Context, req *AdminDailyAddMoneyTwoRequest, opts ...http.CallOption) (rsp *AdminDailyAddMoneyTwoReply, err error)
 	AdminAll(ctx context.Context, req *AdminAllRequest, opts ...http.CallOption) (rsp *AdminAllReply, err error)
 	AdminAmountFourUpdate(ctx context.Context, req *AdminAmountFourRequest, opts ...http.CallOption) (rsp *AdminAmountFourReply, err error)
 	AdminAreaLevelUpdate(ctx context.Context, req *AdminAreaLevelUpdateRequest, opts ...http.CallOption) (rsp *AdminAreaLevelUpdateReply, err error)
@@ -1741,6 +1764,19 @@ func (c *AppHTTPClientImpl) AdminAddMoney(ctx context.Context, in *AdminDailyAdd
 	opts = append(opts, http.Operation(OperationAppAdminAddMoney))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in.SendBody, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *AppHTTPClientImpl) AdminAddMoneyTwo(ctx context.Context, in *AdminDailyAddMoneyTwoRequest, opts ...http.CallOption) (*AdminDailyAddMoneyTwoReply, error) {
+	var out AdminDailyAddMoneyTwoReply
+	pattern := "/api/admin_dhb/add_money_two"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationAppAdminAddMoneyTwo))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
