@@ -2369,6 +2369,31 @@ func sendTransactionBiw(ctx context.Context, secret string, toAddr string, toAmo
 	//return success, broadcastResult.Error.Message, broadcastResult.Error.Code, err
 }
 
+func FloatTo18DecimalsString(f float64) string {
+	// 最多保留 18 位小数（足够精度）
+	str := strconv.FormatFloat(f, 'f', -1, 64)
+
+	parts := strings.Split(str, ".")
+	integerPart := parts[0]
+	decimalPart := ""
+
+	if len(parts) > 1 {
+		decimalPart = parts[1]
+	}
+
+	// 计算还需要补多少个0
+	padZeros := 18 - len(decimalPart)
+	if padZeros < 0 {
+		// 多余则截断
+		decimalPart = decimalPart[:18]
+	} else {
+		// 不足则补0
+		decimalPart += strings.Repeat("0", padZeros)
+	}
+
+	return integerPart + decimalPart
+}
+
 func (a *AppService) AdminWithdrawEth(ctx context.Context, req *v1.AdminWithdrawEthRequest) (*v1.AdminWithdrawEthReply, error) {
 	var (
 		withdraw     *biz.Withdraw
@@ -2406,6 +2431,7 @@ func (a *AppService) AdminWithdrawEth(ctx context.Context, req *v1.AdminWithdraw
 		} else if "USDT" == withdraw.Type {
 			tokenAddress = "0x55d398326f99059fF775485246999027B3197955"
 		} else {
+			_, err = a.uuc.UpdateWithdrawSuccess(ctx, withdraw.ID)
 			continue
 		}
 
@@ -2414,9 +2440,14 @@ func (a *AppService) AdminWithdrawEth(ctx context.Context, req *v1.AdminWithdraw
 			continue
 		}
 
-		withDrawAmount := strconv.FormatFloat(withdraw.RelAmountNew, 'f', -1, 64) // 补八个0.系统基础1是10个0
 		tmpUrl1 := "https://bsc-dataseed4.binance.org/"
-		withDrawAmount += "000000000000000000"
+		withDrawAmount := FloatTo18DecimalsString(withdraw.RelAmountNew)
+		if len(withDrawAmount) <= 15 {
+			fmt.Println(withDrawAmount, withdraw)
+			_, err = a.uuc.UpdateWithdrawSuccess(ctx, withdraw.ID)
+			continue
+		}
+
 		for i := 0; i <= 5; i++ {
 			//fmt.Println(11111, user.ToAddress, v.Amount, balanceInt)
 			_, err = toToken("", users[withdraw.UserId].Address, withDrawAmount, tokenAddress, tmpUrl1)
