@@ -3201,7 +3201,6 @@ func (uuc *UserUseCase) AdminDailyLocationRewardNewTwo(ctx context.Context, req 
 		}
 	}
 
-	return nil, nil
 	tmpMapCurrentI := make(map[int]float64, 0)
 	tmpB1 := b1
 	for i := 1; i <= 18; i++ {
