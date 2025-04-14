@@ -3235,6 +3235,7 @@ func (ui *UserInfoRepo) UpdateUserRewardNew(ctx context.Context, id, userId int6
 		now := time.Now().UTC()
 		var lasUpdated time.Time
 		if 16 <= now.Hour() {
+			lasUpdated = now
 		} else {
 			lasUpdated = now.AddDate(0, 0, -1)
 		}
