@@ -3080,6 +3080,11 @@ func (uuc *UserUseCase) AdminDailyLocationRewardNewTwo(ctx context.Context, req 
 		return nil, nil
 	}
 
+	for _, vBuyRecords := range buyRecords {
+		fmt.Println(vBuyRecords)
+	}
+
+	return nil, nil
 	// 静态
 	for _, vBuyRecords := range buyRecords {
 		if _, ok := usersMap[vBuyRecords.UserId]; !ok {
