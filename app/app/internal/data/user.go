@@ -3,7 +3,6 @@ package data
 import (
 	"context"
 	"dhb/app/app/internal/biz"
-	"fmt"
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
 	"gorm.io/gorm"
@@ -671,7 +670,7 @@ func (u *UserRepo) GetBuyRecord(ctx context.Context, day int) ([]*biz.BuyRecord,
 	startDate = time.Now().UTC().AddDate(0, 0, day)
 
 	res := make([]*biz.BuyRecord, 0)
-	fmt.Println(startDate.Unix())
+
 	var buyRecord []*BuyRecord
 	if err := u.data.db.Table("buy_record").Where("status=?", 1).
 		Where("last_updated<=?", startDate.Unix()).
