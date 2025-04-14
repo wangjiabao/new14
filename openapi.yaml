@@ -2036,6 +2036,8 @@ components:
                     type: string
                 four:
                     type: string
+                myRecommendAddress:
+                    type: string
         AdminUserRecommendReply:
             type: object
             properties:

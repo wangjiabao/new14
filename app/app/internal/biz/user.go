@@ -730,11 +730,14 @@ func (uuc *UserUseCase) AdminUserList(ctx context.Context, req *v1.AdminUserList
 
 	// 推荐人
 	var (
-		userRecommends []*UserRecommend
-		myLowUser      map[int64][]*UserRecommend
+		userRecommends    []*UserRecommend
+		myLowUser         map[int64][]*UserRecommend
+		userRecommendsMap map[int64]*UserRecommend
 	)
 
 	myLowUser = make(map[int64][]*UserRecommend, 0)
+	userRecommendsMap = make(map[int64]*UserRecommend, 0)
+
 	userRecommends, err = uuc.urRepo.GetUserRecommends(ctx)
 	if nil != err {
 		fmt.Println("今日分红错误用户获取失败2")
@@ -742,6 +745,8 @@ func (uuc *UserUseCase) AdminUserList(ctx context.Context, req *v1.AdminUserList
 	}
 
 	for _, vUr := range userRecommends {
+		userRecommendsMap[vUr.UserId] = vUr
+
 		// 我的直推
 		var (
 			myUserRecommendUserId int64
@@ -809,28 +814,56 @@ func (uuc *UserUseCase) AdminUserList(ctx context.Context, req *v1.AdminUserList
 			currentLevel = vUsers.VipAdmin
 		}
 
+		// 推荐人
+		var (
+			userRecommend *UserRecommend
+		)
+
+		addressMyRecommend := ""
+		if _, ok := userRecommendsMap[vUsers.ID]; ok {
+			userRecommend = userRecommendsMap[vUsers.ID]
+
+			if nil != userRecommend && "" != userRecommend.RecommendCode {
+				var (
+					tmpRecommendUserIds   []string
+					myUserRecommendUserId int64
+				)
+				tmpRecommendUserIds = strings.Split(userRecommend.RecommendCode, "D")
+				if 2 <= len(tmpRecommendUserIds) {
+					myUserRecommendUserId, _ = strconv.ParseInt(tmpRecommendUserIds[len(tmpRecommendUserIds)-1], 10, 64) // 最后一位是直推人
+				}
+
+				if 0 < myUserRecommendUserId {
+					if _, ok2 := usersMap[myUserRecommendUserId]; ok2 {
+						addressMyRecommend = usersMap[myUserRecommendUserId].Address
+					}
+				}
+			}
+		}
+
 		res.Users = append(res.Users, &v1.AdminUserListReply_UserList{
-			UserId:            vUsers.ID,
-			CreatedAt:         vUsers.CreatedAt.Add(8 * time.Hour).Format("2006-01-02 15:04:05"),
-			Address:           vUsers.Address,
-			BalanceUsdt:       fmt.Sprintf("%.2f", userBalances[vUsers.ID].BalanceUsdtFloat),
-			BalanceDhb:        fmt.Sprintf("%.2f", userBalances[vUsers.ID].BalanceRawFloat),
-			Vip:               currentLevel,
-			Out:               vUsers.OutRate,
-			HistoryRecommend:  tmpMyRecommendUserIdsLen,
-			AreaTotal:         vUsers.MyTotalAmount,
-			AreaMax:           tmpMax,
-			AreaMin:           tmpAreaMin,
-			AmountUsdtGet:     fmt.Sprintf("%.2f", vUsers.AmountUsdtGet),
-			AmountUsdtCurrent: fmt.Sprintf("%.2f", vUsers.AmountUsdt),
-			BalanceKsdt:       fmt.Sprintf("%.2f", userBalances[vUsers.ID].BalanceKsdtFloat),
-			RecommendLevel:    vUsers.RecommendLevel,
-			Lock:              vUsers.Lock,
-			LockReward:        vUsers.LockReward,
-			AmountFour:        fmt.Sprintf("%.2f", vUsers.AmountFour),
-			AmountFourGet:     fmt.Sprintf("%.2f", vUsers.AmountFourGet),
-			Password:          vUsers.Password,
-			Four:              int64(vUsers.Amount),
+			UserId:             vUsers.ID,
+			CreatedAt:          vUsers.CreatedAt.Add(8 * time.Hour).Format("2006-01-02 15:04:05"),
+			Address:            vUsers.Address,
+			BalanceUsdt:        fmt.Sprintf("%.2f", userBalances[vUsers.ID].BalanceUsdtFloat),
+			BalanceDhb:         fmt.Sprintf("%.2f", userBalances[vUsers.ID].BalanceRawFloat),
+			Vip:                currentLevel,
+			Out:                vUsers.OutRate,
+			HistoryRecommend:   tmpMyRecommendUserIdsLen,
+			AreaTotal:          vUsers.MyTotalAmount,
+			AreaMax:            tmpMax,
+			AreaMin:            tmpAreaMin,
+			AmountUsdtGet:      fmt.Sprintf("%.2f", vUsers.AmountUsdtGet),
+			AmountUsdtCurrent:  fmt.Sprintf("%.2f", vUsers.AmountUsdt),
+			BalanceKsdt:        fmt.Sprintf("%.2f", userBalances[vUsers.ID].BalanceKsdtFloat),
+			RecommendLevel:     vUsers.RecommendLevel,
+			Lock:               vUsers.Lock,
+			LockReward:         vUsers.LockReward,
+			AmountFour:         fmt.Sprintf("%.2f", vUsers.AmountFour),
+			AmountFourGet:      fmt.Sprintf("%.2f", vUsers.AmountFourGet),
+			Password:           vUsers.Password,
+			Four:               int64(vUsers.Amount),
+			MyRecommendAddress: addressMyRecommend,
 		})
 	}
 
